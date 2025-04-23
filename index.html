@@ -6,32 +6,10 @@
     <title>Unity Web Player | Match2 Puzzle Game</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-
-<style>
-  html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #unity-container {
-      width: 540px;
-      height: 960px;
-    }
-    #unity-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-</style>
-
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width="540" height="960" tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=540 height=960 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -92,7 +70,7 @@
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
-      config.matchWebGLToCanvasSize = false;
+      // config.matchWebGLToCanvasSize = false;
 
       // If you would like all file writes inside Unity Application.persistentDataPath
       // directory to automatically persist so that the contents are remembered when
@@ -102,7 +80,8 @@
       // existing user projects that might rely on the earlier manual
       // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
       // expected to change.
-      /*if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
         var meta = document.createElement('meta');
@@ -121,17 +100,7 @@
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
         canvas.style.width = "540px";
         canvas.style.height = "960px";
-      }*/
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-          // Lock to portrait box on mobile
-          canvas.removeAttribute('class');
-          var container = document.getElementById('unity-container');
-          container.style.width  = '540px';
-          container.style.height = '960px';
-          container.style.margin = 'auto';
-          // Optionally keep devicePixelRatio=1 for performance:
-          // config.devicePixelRatio = 1;
-        }
+      }
 
       document.querySelector("#unity-loading-bar").style.display = "block";
 
@@ -142,19 +111,8 @@
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 document.querySelector("#unity-loading-bar").style.display = "none";
-                /*document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };*/
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  document.documentElement.requestFullscreen().then(() => {
-                    const gc = document.getElementById('unity-container');
-                    const targetRatio = 540/960, winRatio = window.innerWidth/window.innerHeight;
-                    if (winRatio > targetRatio) {
-                      gc.style.height = '100%'; gc.style.width = 'auto';
-                    } else {
-                      gc.style.width  = '100%'; gc.style.height = 'auto';
-                    }
-                  });
+                  unityInstance.SetFullscreen(1);
                 };
 
               }).catch((message) => {
